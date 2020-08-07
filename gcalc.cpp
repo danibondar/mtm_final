@@ -54,8 +54,8 @@ bool is_vertex(const string& str) {
     if (square_bracket != 0) {
         return false;
     }
-    return !(str == DELETE || str == PRINT || str == WHO || str == QUIT || str == RESET);
-
+    //return !(str == DELETE || str == PRINT || str == WHO || str == QUIT || str == RESET);
+    return true;
 }
 
 bool is_graph(const string& str) {
@@ -133,7 +133,14 @@ void equal_symbol_checker(vector<string>& output_vector) {
 
 void saved_function_checker(vector<string>& output_vector) {
     try {
+        bool in_brakets = false;
         for (auto it = output_vector.begin(); it != output_vector.end(); it++) {
+            if (*it == "{") {
+                in_brakets = true;
+            }
+            if (*it == "}") {
+                in_brakets = false;
+            }
             if (it == output_vector.begin()) {
                 if (*it == DELETE || *it == PRINT || *it == WHO || *it == QUIT || *it == RESET) {
                     if (*it == WHO || *it == QUIT || *it == RESET) {
@@ -153,7 +160,8 @@ void saved_function_checker(vector<string>& output_vector) {
                         }
                     }
                 }
-            } else if (*it == DELETE || *it == PRINT || *it == WHO || *it == QUIT || *it == RESET) {
+            } else if ((*it == DELETE || *it == PRINT || *it == WHO || *it == QUIT || *it == RESET) &&
+                       in_brakets == false) {
                 throw Undefined_syntax();
             }
         }
@@ -256,8 +264,7 @@ void graph_syntax_checker(vector<string>& output_vector) {
                         throw Undefined_syntax();
                     }
                 } else if (in_brcket) {
-                    if (*next_token == "}") {
-                        it++;
+                    if (*it == "}") {
                         pipline = false;
                         in_brcket = false;
                     } else {
@@ -496,6 +503,13 @@ vector<shared_ptr<Token>> tokenizer(vector<string>& output_vector, map<string, s
                         token++;
                     }
                 }
+                auto next_token = next(token);
+                if (*token == "|" && *next_token == "}") {
+                    shared_ptr<Graph> graph_ptr(new Graph(vertices, edges));
+                    shared_ptr<Token> token_ptr(new Token(GRAPH, "newgraph", graph_ptr));
+                    new_token_vector.push_back(token_ptr);
+                    continue;
+                }
                 if (*token == "|") {
                     while (*token != "}") {
                         vector<string> edge;
@@ -609,7 +623,7 @@ int main(int argc, char** argv) {
         string str;
         while (getline(newfile, str)) { //read data from file object and put it into string.
             try {
-                if (str == "g1 = {a| }") {
+                if (str == "g1 = {reset,print|<reset,print>}") {
                 }
                 if (str.empty()) {
                     continue;

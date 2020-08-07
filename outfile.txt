@@ -124,6 +124,7 @@ g2
 $
 [[]] [[]s]
 [;;;;][s][ffff][[ss244s]]
+$
 Error: Undefined syntax
 Error: Undefined syntax
 G1
@@ -177,9 +178,13 @@ g3
 g4
 g5
 g6
+$
 Error: Undefined syntax
+$
 a
+$
 a
+$
 Error: Undefined syntax
 Error: Undefined syntax
 a
@@ -203,25 +208,32 @@ s
 z
 $
 a c
+$
 g1
 g2
 a
 b
 $
 a b
+$
 b
+$
 a
+$
 a
+$
 c
 v
 $
 c v
 c
 v
+$
 Error: Undefined syntax
 Error: Undefined variable
 Error: Undefined variable
 Error: Undefined variable
+$
 bondar
 dani
 $
@@ -230,6 +242,8 @@ a
 b
 $
 a b
+$
+$
 g1
 g2
 g3
@@ -361,4 +375,16 @@ b
 $
 a b
 Error: Undefined syntax
-Error: Undefined syntax
+a
+$
+a
+$
+$
+print
+reset
+$
+reset print
+print
+reset
+$
+reset print

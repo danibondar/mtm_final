@@ -220,4 +220,12 @@ print(!!(g1))
 (g1 = g2)
 g1 = {a| }
 print (g1)
+print(!(g1+g1))
+G1 = {a | }
+G2 = G1 - {a | }
+print(G2)
+reset
+g1 = {reset,print|<reset,print>}
+print(g1)
+print ({reset,print|<reset,print>})
 quit

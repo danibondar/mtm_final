@@ -118,13 +118,9 @@ void Graph::print(ostream& outfile) {
     for (const auto& connection : connections) {
         outfile << connection.first << endl;
     }
-    bool is_there_edges = false;
+    outfile<<"$"<<endl;
     for (const auto& connection : connections) {
         for (const auto& vertex : connection.second) {
-            if (!is_there_edges){
-                is_there_edges = true;
-                outfile << "$" << endl;
-            }
             outfile << connection.first << " " << vertex << endl;
         }
     }
