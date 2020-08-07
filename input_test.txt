@@ -189,4 +189,35 @@ g3 = g1*g2
 print(g3)
 print (g1*g2)
 print(g2*g1)
-
+g2 = {c,d|<c,d>,<d,c>}
+g1 = {a,b|<a,b>,<b,a>}
+print (g2*g1)
+/////////
+g1 = {a,b,c|<a,b>,<b,a>,<c,a>}
+g2 = {c,d|<c,d>,<d,c>}
+print (g2*g1)
+print ((g2*g1))
+print (g2**g1)
+g1 = {a,b|<a,b>}
+quit = {x1,x2}
+print (g1*g1*g1)
+print (g1*(g1*g1))
+quit = {x1,x2}
+print(g1)l
+reset
+//////////#
+g1 = {a,b|<a,b>}
+g2 = !g1
+print(g2)
+g2 = !!g1
+print(g2)
+g2 = (g1)
+print (g2)
+g2 = (!g1)
+print(g2)
+print(!(g1))
+print(!!(g1))
+(g1 = g2)
+g1 = {a| }
+print (g1)
+quit

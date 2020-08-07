@@ -262,5 +262,100 @@ Error: Undefined syntax
 [b;c]
 [b;d]
 $
-[a;c] [b;c]
-[a;c] [b;c]
+[a;c] [b;d]
+[a;c]
+[a;d]
+[b;c]
+[b;d]
+$
+[a;c] [b;d]
+[c;a]
+[c;b]
+[d;a]
+[d;b]
+$
+[c;a] [d;b]
+[c;a]
+[c;b]
+[d;a]
+[d;b]
+$
+[c;a] [d;b]
+[c;b] [d;a]
+[d;a] [c;b]
+[d;b] [c;a]
+Error: Undefined syntax
+[c;a]
+[c;b]
+[c;c]
+[d;a]
+[d;b]
+[d;c]
+$
+[c;a] [d;b]
+[c;b] [d;a]
+[c;c] [d;a]
+[d;a] [c;b]
+[d;b] [c;a]
+[d;c] [c;a]
+[c;a]
+[c;b]
+[c;c]
+[d;a]
+[d;b]
+[d;c]
+$
+[c;a] [d;b]
+[c;b] [d;a]
+[c;c] [d;a]
+[d;a] [c;b]
+[d;b] [c;a]
+[d;c] [c;a]
+Error: Undefined syntax
+Error: Undefined syntax
+[[a;a];a]
+[[a;a];b]
+[[a;b];a]
+[[a;b];b]
+[[b;a];a]
+[[b;a];b]
+[[b;b];a]
+[[b;b];b]
+$
+[[a;a];a] [[b;b];b]
+[a;[a;a]]
+[a;[a;b]]
+[a;[b;a]]
+[a;[b;b]]
+[b;[a;a]]
+[b;[a;b]]
+[b;[b;a]]
+[b;[b;b]]
+$
+[a;[a;a]] [b;[b;b]]
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+a
+b
+$
+b a
+a
+b
+$
+a b
+a
+b
+$
+a b
+a
+b
+$
+b a
+a
+b
+$
+b a
+b
+$
+a b

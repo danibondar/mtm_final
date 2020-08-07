@@ -132,12 +132,10 @@ void equal_symbol_checker(vector<string>& output_vector) {
 }
 
 void saved_function_checker(vector<string>& output_vector) {
-    bool saved_function = false;
     try {
         for (auto it = output_vector.begin(); it != output_vector.end(); it++) {
             if (it == output_vector.begin()) {
                 if (*it == DELETE || *it == PRINT || *it == WHO || *it == QUIT || *it == RESET) {
-                    saved_function = true;
                     if (*it == WHO || *it == QUIT || *it == RESET) {
                         if (output_vector.size() != 1) {
                             throw Undefined_syntax();
@@ -257,25 +255,33 @@ void graph_syntax_checker(vector<string>& output_vector) {
                     } else {
                         throw Undefined_syntax();
                     }
-                } else if (in_brcket && pipline) {
-                    string first;
-                    if (*it == "<") {
+                } else if (in_brcket) {
+                    if (*next_token == "}") {
                         it++;
-                        if (is_vertex(*it)) {
-                            first = *it;
+                        pipline = false;
+                        in_brcket = false;
+                    } else {
+                        string first;
+                        if (*it == "<") {
                             it++;
-                            if (*it == ",") {
+                            if (is_vertex(*it)) {
+                                first = *it;
                                 it++;
-                                if (is_vertex(*it)) {
-                                    if (*it == first) {
-                                        throw Undefined_variable();
-                                    }
+                                if (*it == ",") {
                                     it++;
-                                    if (*it == ">") {
+                                    if (is_vertex(*it)) {
+                                        if (*it == first) {
+                                            throw Undefined_variable();
+                                        }
                                         it++;
-                                        if (*it == "}") {
-                                            in_brcket = false;
-                                        } else if (*it == ",") {
+                                        if (*it == ">") {
+                                            it++;
+                                            if (*it == "}") {
+                                                in_brcket = false;
+                                            } else if (*it == ",") {
+                                            } else {
+                                                throw Undefined_syntax();
+                                            }
                                         } else {
                                             throw Undefined_syntax();
                                         }
@@ -291,8 +297,6 @@ void graph_syntax_checker(vector<string>& output_vector) {
                         } else {
                             throw Undefined_syntax();
                         }
-                    } else {
-                        throw Undefined_syntax();
                     }
                 }
             }
@@ -319,7 +323,7 @@ bool is_over(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<Token>>:
         if (next_token_2 - token_vector.end() == 0) {
             return true;
         } else {
-            it++;//todo:: need to check
+            it++;
             return true;
         }
     } else return false;
@@ -339,16 +343,9 @@ void argument_finder(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<
             it++;
             arg = regex_evaluate(token_vector, it);
         } else if ((*it)->name == "!" && it != token_vector.end()) {
-            auto next_token = next(it, 1);
-            if (is_graph((*next_token)->name)) {
-                shared_ptr<Graph> temp(new Graph(!(*(*next_token)->ptr)));
-                arg = temp;
-                it++;
-            } else if ((*next_token)->name == "(") {
-                arg = regex_evaluate(token_vector, it);
-            } else {
-                throw Undefined_syntax();
-            }
+            it++;
+            shared_ptr<Graph> temp(new Graph(!(*evaluate(token_vector, it))));
+            arg = temp;
         } else {
             throw Undefined_syntax();
         }
@@ -405,7 +402,7 @@ shared_ptr<Graph> evaluate(vector<shared_ptr<Token>>& token_vector, vector<share
         } else {
             it++;
             if (is_operator((*it)->name)) {
-                if (it == (token_vector.end()-1)){
+                if (it == (token_vector.end() - 1)) {
                     throw Undefined_syntax();
                 }
                 operator_symbol = (*it)->name;
@@ -612,7 +609,7 @@ int main(int argc, char** argv) {
         string str;
         while (getline(newfile, str)) { //read data from file object and put it into string.
             try {
-                if (str == "print ((g1))") {
+                if (str == "g1 = {a| }") {
                 }
                 if (str.empty()) {
                     continue;
