@@ -1,0 +1,192 @@
+g1 = {a,b | < a,b>}
+who
+print(g1)
+wh0
+g2= {a|<a,a>}
+g2 = {a,[d;],c,b| <a,b>, <[d;],c>, <a,[d;]>}
+g3 = {a,b,c|<a,b>}
+who
+print (g2)
+print (g)
+print g
+g1 g1
+g1 = g2
+who
+print (g1)
+g1 = {a,b | < a,b>}
+print (g1)
+who
+g1 = g1 + g3
+print(g1)
+g3 = !g3
+print(g3)
+g4 = {}
+g5 = ()
+who
+..............
+reset
+who
+print(g1)
+g1 = ()
+g1 = (+)
+g1 = (+(
+g1= {c,b,a|<b,c>,<b,c>}
+g1= {c,b,a|<b,c>,   <a,a>}
+g1= {a,a,a,m|<m,a>}
+g1= {a,b,c |<a,g>}
+who
+g1= {arc,v|<s,d>}
+g1= {a|<d,a>}
+g1 =  {|<a,c>}
+g1 =  {|}
+a = {a}
+who
+1f =  {a,c|<a,c>}
+g1 == { d,c|<d,c>}
+g1 ={d,c <d,c>}
+g1 = {d ,c |<d,c> <c,d>}
+g1 = {d, c |<d c>}
+g1 = {d , c | < d c > }
+g1 = {d,c ;<d,c>}
+g1 = d,c |<d,c>
+g1 = {d,c |d,c}
+g1 = {d c |<d,c>}
+g1 = {d,c |<d,>}
+g1 = {d| <d,c>}
+g1 = 
+print(a) = (a)
+who
+=
++
+-
+{
+}
+<
+>
+;
+a
+who
+1
+[
+]
+*
+^
+!
+(
+)
+g1 = 
+= {a,b|<a,b>}
+g1 = {[,d|<[,d>}
+g1 = {],d|<],d>}
+g1 = {;,d|<;,d>}
+g1 = {[s];,d|<[s];,d>}
+g1 = {[,d|<[,d>}
+g1 = {[[],d|<[[],d>}
+g1 = {][,d|<][,d>}
+g1 = {[,d|<[,d>}
+g1 = {[x1]][,d|<[x1]][,d>}
+g1 = {[[,]]|<[[,]]>}
+who
+G1 = {[[]],[[]s]|<[[]],[[]s]>}
+g2 = {[;;;;][s][ffff][[ss244s]]}
+who
+print ( G1 )
+print(g2 )
+print(g2) quit
+g# = {[[,]]|<[[,]]>}
+g1 = {[[]],[[]s]|<[[]],[[]s]>}
+who
+delete((g1))
+delete(g1))
+print((g1)
+delete(g1)
+who
+delete(G1)
+who
+delete(g2)
+who
+g1 = {a,b|<a,b>,<b,a>}
+g2 = {i,j,a,b|<a,b>,<a,i>,<i,j>}
+g3 = g1 +g2
+print(g3)
+g3 = g3 + g1+ g2
+print(g3)
+g4 = g2+g1
+print(g4)
+g4 = g2^g1
+print(g4)
+g5 = {c}
+g6 = g5^g1
+who
+print(g6)
+print()
+g6 = g1^g5
+print(g6)
+g5 = {a}
+g6 = g1^g5
+print(g6)
+g6 = g5^g1
+print(g6)
+g3 = g3 + g1+
+g3 = g3 ^ g1+
+g3 = {d, a,b|<a,b>,<b,a>}
+g4 = g1^g2^g3
+print ( g4 )
+
+reset
+who
+clear
+hwo
+g1 ={s}+{a,c|<a,c}
+print(g1)
+g1 ={s}+{a,c|<a,c>}
+print(g1)
+g2 = {z}+g2
+print(g2)
+g2 =g1 + {z}
+print(g2)
+reset
+who
+g1 = {a,b | <a,b>}
+g2 = g1 - g1
+print(g2)
+who
+g3 = g1 - g2
+print (g3)
+g3 = g2 -g1
+print(g3)
+g2 = {a}
+g3 = g1-g2
+print(g3)
+g2 = {b}
+g3 = g1-g2
+print(g3)
+print (g1-g2)
+g2 = {a,v,b,c|<v,a>,<a,b>,<c,v>}
+print(g2 - g1)
+g2 = {a,v,b,c|<b,a>}
+print(g2 - g1)
+reset = {a}
+print (f - g1)
+delete(f)
+g1 = g2 -f
+print(g2 + g2 -g2)
+print(g1 -g1 +{dani, bondar|<dani,bondar>})
+print (g1)
+print(g1-g1^g1)
+print(g1^g2- g1)
+who
+print ((g1))
+print (((g2)))
+who
+print((g1)+(g1))
+print(g2+(g2-g2))
+reset
+.......................
+g1 = {a,b|<a,b>}
+g2 = {c,d|<c,d>}
+g3 = g1*g2
+print(g3)
+print (g1*g2)
+print(g2*g1)
+
