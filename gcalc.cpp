@@ -368,6 +368,7 @@ void graph_syntax_checker(vector<string>& output_vector) {
                                             it++;
                                             if (*it == "}") {
                                                 in_brcket = false;
+                                                pipline = false;
                                             } else if (*it == ",") {
                                             } else {
                                                 throw Undefined_syntax();
@@ -434,8 +435,13 @@ void argument_finder(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<
             arg = regex_evaluate(token_vector, it);
         } else if ((*it)->name == "!" && it != token_vector.end()) {
             it++;
-            shared_ptr<Graph> temp(new Graph(!(*evaluate(token_vector, it))));
-            arg = temp;
+            if (is_graph((*it)->name)) {
+                shared_ptr<Graph> temp(new Graph(!(*(*it)->ptr)));
+                arg = temp;
+            } else {
+                shared_ptr<Graph> temp(new Graph(!(*evaluate(token_vector, it))));
+                arg = temp;
+            }
         } else {
             throw Undefined_syntax();
         }
@@ -568,15 +574,26 @@ shared_ptr<Graph> load_graph(const string& file_name) {
             }
             shared_ptr<Graph> graph_ptr(new Graph(vertices, edges));
             return graph_ptr;
+            infile.close();
         } else {
             throw Undefined_variable();//todo:: check if this is a fetal exception
         }
-    } catch (...) { throw; }
+        infile.close();
+    } catch (const ostream::failure& e) {
+        throw Undefined_variable();
+    } catch (...) {
+        if (infile.is_open()) {
+            infile.close();
+        }
+        throw;
+    }
 }
 
+/**
 void save_function(shared_ptr<Graph>& graph, shared_ptr<Token>& file_name) {
+    ofstream outfile((*file_name).name, ios_base::binary);
+    outfile.open((*file_name).name, ios_base::binary);
     try {
-        ofstream outfile((*file_name).name, ios_base::binary);
         if (outfile.is_open()) {
             vector<string> vertices;
             unsigned int size_vertices = graph->connections.size();
@@ -604,9 +621,56 @@ void save_function(shared_ptr<Graph>& graph, shared_ptr<Token>& file_name) {
                 }
             }
         } else {
+            outfile.close();
             throw Undefined_variable();//todo:: check if this is a fetal exception
         }
+        outfile.close();
     } catch (...) { throw; }
+
+}
+*/
+
+void save_function(shared_ptr<Graph>& graph, shared_ptr<Token>& file_name) {
+    ofstream outfile((*file_name).name, ios_base::binary);
+    try {
+        if (outfile.is_open()) {
+            vector<string> vertices;
+            unsigned int size_vertices = graph->connections.size();
+            unsigned int size_edges = 0;
+            for (auto& connection:graph->connections) {
+                vertices.push_back(connection.first);
+                size_edges += connection.second.size();
+            }
+            outfile.write((const char*) &size_vertices, sizeof(size_vertices));
+            outfile.write((const char*) &size_edges, sizeof(size_edges));
+            for (auto& vertex:vertices) {
+                unsigned int sz = vertex.size();
+                outfile.write((const char*) &sz, sizeof(sz));
+                outfile.write((const char*) vertex.c_str(), sz);
+            }
+            for (auto& connection:graph->connections) {
+                for (auto& dest :connection.second) {
+                    unsigned int sz = connection.first.size();
+                    outfile.write((const char*) &sz, sizeof(sz));
+                    outfile.write((const char*) connection.first.c_str(), sz);
+
+                    sz = dest.size();
+                    outfile.write((const char*) &sz, sizeof(sz));
+                    outfile.write((const char*) dest.c_str(), sz);
+                }
+            }
+            outfile.close();
+        } else {
+            throw Undefined_variable();
+        }
+    } catch (const ostream::failure& e) {
+        throw Undefined_variable();
+    } catch (...) {
+        if (outfile.is_open()) {
+            outfile.close();
+        }
+        throw;
+    }
 
 }
 
@@ -798,6 +862,7 @@ int main(int argc, char** argv) {
 //                    exit(0);
 //                }
 //            }
+//            outfile.close();
 //            newfile.close(); //close the file object.
 //        }
 //    } else if (argc == 1) {
@@ -839,15 +904,15 @@ int main(int argc, char** argv) {
 
 
     ifstream newfile;
-    newfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/input_test.txt");
+    newfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/gur_test.txt");
     ofstream outfile;
-    outfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/outfile.txt");
+    outfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/outfile_gur.txt");
     if (newfile.is_open() && outfile.is_open()) { //checking whether the file is open
         string str;
         while (getline(newfile, str)) { //read data from file object and put it into string.
             try {
                 if (str ==
-                    "g2 = load(/Users/alexbondar/Technion/2_semester/matam/final_project/dani bondar.gf)") {
+                    "loadload ={} +g2 + g3 + !( g4*(  (g6 -g5+ g2))-g4*g5)") {
                 }
                 if (str.empty()) {
                     continue;
@@ -875,7 +940,8 @@ int main(int argc, char** argv) {
                 exit(0);
             }
         }
-        newfile.close(); //close the file object.
+        newfile.close();
+        outfile.close();//close the file object.
     }
     return 0;
 }

@@ -242,4 +242,19 @@ save (g1, /Users/alexbondar/Technion/2_semester/matam/final_project/dani bondar.
 g2 = load(/Users/alexbondar/Technion/2_semester/matam/final_project/dani bondar.gf)
 print(g2)
 save(!g2+g1+g2 , /Users/alexbondar/Technion/2_semester/matam/final_project/intersection.gf )
-quit
+g3 = load( /Users/alexbondar/Technion/2_semester/matam/final_project/intersection.gf )
+print(g3)
+////
+print(g1)
+print(g2)
+print(!g2)
+print(!g2+g1)
+print(!g2+g1+g2)
+//////////////
+g4 = load( /Users/alexbondar/Technion/2_semester/matam/final_project/intersection.gf ) * {v,c|}
+print (g4)
+print(load( /Users/alexbondar/Technion/2_semester/matam/final_project/intersection.gf )*{v,c|})
+save ({a,f,m,t,d|<d,f>,<m,t>}-({a} + !{f,d|<f,d>}), /Users/alexbondar/Technion/2_semester/matam/final_project/danibondar.gf)
+print(load(/Users/alexbondar/Technion/2_semester/matam/final_project/danibondar.gf))
+//////////////
+save(!g2+g1+g2 , /Users/alexbondar/Technion/2_semester/matam/final_project/intersection.gf )

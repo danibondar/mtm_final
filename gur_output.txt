@@ -1,0 +1,107 @@
+$
+Error: Unknown. Failed to open file bu. No such file or directory
+Error: Invalid format. In <x,x> Self loops not allowed.
+Error: Multiple Declarations. z has already been declared.
+Error: Invalid syntax. Braces unbalanced.
+Error: Invalid syntax. Braces unbalanced.
+Error: Invalid syntax. Unexpected: = after command.
+Error: Invalid syntax. Function call is in an invalid format
+Error: Invalid syntax. Graph literal format: {||}
+g0
+$
+Error: Missing Declaration. Graph: inv not declared
+[rest]load
+save[booo]
+$
+Error: Invalid syntax. Graph literal format: {x y,y,z|<x,y>}-{z})
+g0
+g1
+x
+y
+$
+y x
+Error: Invalid syntax. Unexpected reserved word: save
+x
+z
+$
+z x
+x
+z
+$
+x z
+g0
+g1
+g2
+g3
+g4
+g5
+g6
+Error: Invalid syntax. Unexpected: pokemon after command.
+[x;x]
+[z;x]
+x
+y
+z
+$
+[x;x] [z;x]
+[z;x] [x;x]
+y z
+z x
+z y
+Error: Invalid format. Binary operator "-" missing operand.
+Error: Missing Declaration. Graph: inv not declared
+Error: Invalid format. Binary operator "-" missing operand.
+x
+y
+$
+y x
+Error: Invalid syntax. Unexpected reserved word: quit
+Error: Missing Declaration. Graph: inv not declared
+Error: Unknown. Save to file ../badpath/graphnt failed. No such file or directory. Probably the path is invalid.
+Error: Invalid syntax. Command cannot start with braces.
+Error: Invalid syntax. Braces unbalanced.
+Error: Invalid syntax. Unknown token type: _
+Error: Unknown. Save to file "in/valid" failed. No such file or directory. Probably the path is invalid.
+x
+y
+$
+y x
+Error: Unknown. Failed to open file withspace. No such file or directory
+x
+y
+$
+y x
+x
+y
+$
+y x
+x
+y
+$
+y x
+y
+z
+$
+y z
+z y
+Error: Invalid syntax. Failed to parse line after o
+$
+$
+Error: Invalid syntax. Command cannot start with braces.
+x
+y
+$
+y x
+Error: Missing Declaration. The node: a.
+Error: Invalid format. [a is not a valid name for a node.
+Error: Invalid format. a;b is not a valid name for a node.
+[a]
+[b]
+[c;]
+$
+[a] [b]
+[a] [c;]
+[b] [a]
+[b] [c;]
+[c;] [a]
+[c;] [b]

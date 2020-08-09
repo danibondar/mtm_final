@@ -389,8 +389,87 @@ $
 reset print
 $
 Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
 x1
 x2
 x3
 $
 x1 x2
+x1
+x2
+x3
+$
+x1 x2
+x1
+x2
+x3
+$
+x1 x2
+x1 x3
+x2 x1
+x2 x3
+x3 x1
+x3 x2
+Error: Undefined syntax
+x1
+x2
+x3
+$
+x1 x2
+x1
+x2
+x3
+$
+x1 x2
+x1
+x2
+x3
+$
+x1 x3
+x2 x1
+x2 x3
+x3 x1
+x3 x2
+x1
+x2
+x3
+$
+x1 x2
+x1 x3
+x2 x1
+x2 x3
+x3 x1
+x3 x2
+x1
+x2
+x3
+$
+x1 x2
+x1 x3
+x2 x1
+x2 x3
+x3 x1
+x3 x2
+Error: Undefined syntax
+[x1;c]
+[x1;v]
+[x2;c]
+[x2;v]
+[x3;c]
+[x3;v]
+$
+[x1;c]
+[x1;v]
+[x2;c]
+[x2;v]
+[x3;c]
+[x3;v]
+$
+m
+t
+$
+m t
+Error: Undefined syntax
