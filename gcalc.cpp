@@ -8,6 +8,7 @@
 #include "graph.h"
 #include "tokens.h"
 #include "Exceptions.h"
+#include "gcalc.h"
 
 #define DELETE "delete"
 #define WHO "who"
@@ -21,9 +22,6 @@
 #define GRAPH "graph"
 #define FILENAME "filename"
 using namespace std;
-
-shared_ptr<Graph> evaluate(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<Token>>::iterator& it,
-                           shared_ptr<Graph> first_arg = nullptr);
 
 bool is_symbol(const char val) {
     if (val < '0' || (val > '9' && val < 'A') || (val > 'Z' && val < 'a') || val > 'z') {
@@ -62,7 +60,7 @@ bool is_vertex(const string& str) {
 }
 
 bool is_graph(const string& str) {
-    if (str == DELETE || str == PRINT || str == WHO || str == QUIT || str == RESET) {
+    if (str == DELETE || str == PRINT || str == WHO || str == QUIT || str == RESET || str == LOAD || str == SAVE) {
         return false;
     }
     if ((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z')) {
@@ -80,20 +78,89 @@ bool is_operator(const string& str) {
     return str == "+" || str == "^" || str == "*" || str == "-";
 }
 
+bool is_file(const string& str) {
+    if (str.empty()) {
+        return false;
+    }
+    for (auto& it :str) {
+        if (it == '"' || it == ',' || it == ')' || it == '(' || it == '{' || it == '}' || it == '[' || it == ']') {
+            return false;
+        }
+    }
+    return true;
+}
+
 vector<string> parse_to_vector(string& str) {
     vector<string> input_stack;
     string temp_str;
+    string space_str;
+    bool save_func = false;
+    bool load_func = false;
+    bool in_curly_brackets = false;
+    bool comma = false;
+    bool string_starts = false;
     try {
         for (char& it : str) {
-            if (it == ' ') {
-            } else if (is_symbol(it)) {
+            if (!input_stack.empty()) {
+                if (input_stack[0] == SAVE) {
+                    save_func = true;
+                    if (*(str.end() - 1) != ')') {
+                        throw Undefined_syntax();
+                    }
+                }
+            }
+            if (comma || load_func) {
+                if (it == ' ' && !string_starts) {}
+                else {
+                    string_starts = true;
+                    if (it == ')') {
+                        comma = false;
+                        string_starts = false;
+                        load_func = false;
+                        input_stack.push_back(temp_str);
+                        temp_str = ")";
+                        input_stack.push_back(temp_str);
+                        temp_str = "";
+                    } else if (it == ' ') {
+                        space_str += it;
+                    } else {
+                        temp_str += space_str;
+                        space_str = "";
+                        temp_str.push_back(it);
+                    }
+                }
+            } else if (it == ' ') {
                 if (!temp_str.empty()) {
+                    input_stack.push_back(temp_str);
+                    temp_str = "";
+                }
+            } else if (is_symbol(it)) {
+                if (it == '{') {
+                    in_curly_brackets = true;
+                }
+                if (it == '}') {
+                    in_curly_brackets = false;
+                }
+                if (!in_curly_brackets && save_func) {
+                    if (it == ',') {
+                        comma = true;
+                    }
+                }
+                if (!temp_str.empty()) {
+                    if (temp_str == LOAD && it == '(') {
+                        load_func = true;
+                    }
                     input_stack.push_back(temp_str);
                     temp_str = it;
                     input_stack.push_back(temp_str);
                     temp_str = "";
                 } else {
                     temp_str = it;
+                    if (!input_stack.empty()) {
+                        if (*(input_stack.end() - 1) == LOAD && it == '(') {
+                            load_func = true;
+                        }
+                    }
                     input_stack.push_back(temp_str);
                     temp_str = "";
                 }
@@ -274,6 +341,8 @@ void graph_syntax_checker(vector<string>& output_vector) {
                         } else {
                             throw Undefined_syntax();
                         }
+                    } else if (*it == "|") {
+                        pipline = true;
                     } else {
                         throw Undefined_syntax();
                     }
@@ -453,48 +522,48 @@ shared_ptr<Graph> load_graph(const string& file_name) {
             set<vector<string>> edges;
             infile.read((char*) &num_vertices, sizeof(num_vertices));
             infile.read((char*) &num_edges, sizeof(num_edges));
-            for (int i = 0; i <= num_vertices; i++) {
+            for (int i = 0; i < num_vertices; i++) {
                 string vertex;
                 unsigned int size_of_vertex_name = 0;
                 infile.read((char*) &size_of_vertex_name, sizeof(size_of_vertex_name));
-                vertex.resize(size_of_vertex_name);
-                infile.read((char*) &vertex, size_of_vertex_name);
-                if (vertices.find(vertex) == vertices.end() || !is_vertex(vertex)) {
+                char* vertex_char_array = new char[size_of_vertex_name];
+                try {
+                    infile.read((char*) vertex_char_array, size_of_vertex_name);
+                } catch (...) {
+                    delete[] vertex_char_array;
+                    throw;
+                }
+                vertex = vertex_char_array;
+                delete[] vertex_char_array;
+                if (vertices.find(vertex) != vertices.end() || !is_vertex(vertex)) {
                     throw Undefined_syntax();
                 } else {
                     vertices.insert(vertex);
                 }
             }
-            for (int i = 0; i <= num_edges; i++) {
+            for (int i = 0; i < num_edges; i++) {
                 vector<string> edge;
-                string str_edge;
-                unsigned int size_of_edge_name = 0;
-                infile.read((char*) &size_of_edge_name, sizeof(size_of_edge_name));
-                str_edge.resize(size_of_edge_name);
-                infile.read((char*) &str_edge, size_of_edge_name);
-                if ((str_edge[0] != '<') || *(str_edge.end() - 1) == '>') {
+                for (int j = 0; j < 2; j++) {
+                    string str_edge;
+                    unsigned int size_of_edge_name = 0;
+                    infile.read((char*) &size_of_edge_name, sizeof(size_of_edge_name));
+                    char* edge_char_array = new char[size_of_edge_name];
+                    try {
+                        infile.read((char*) edge_char_array, size_of_edge_name);
+                    } catch (...) {
+                        delete[] edge_char_array;
+                        throw;
+                    }
+                    str_edge = edge_char_array;
+                    delete[] edge_char_array;
+                    if (vertices.find(str_edge) == vertices.end()) {
+                        throw Undefined_variable();
+                    }
+                    edge.push_back(str_edge);
+                }
+                if (edge[0] == edge[1]) {
                     throw Undefined_syntax();
                 }
-                string first;
-                string second;
-                bool koma = false;
-                for (int j = 1; j < size_of_edge_name; j++) {
-                    if (str_edge[j] == ',') {
-                        koma = true;
-                        continue;
-                    }
-                    if (!koma) {
-                        first += str_edge[j];
-                    } else {
-                        second += str_edge[j];
-                    }
-                }
-                if (first.empty() || second.empty() || vertices.find(first) == vertices.end() ||
-                    vertices.find(second) == vertices.end()) {
-                    throw Undefined_variable();
-                }
-                edge.push_back(first);
-                edge.push_back(second);
                 edges.insert(edge);
             }
             shared_ptr<Graph> graph_ptr(new Graph(vertices, edges));
@@ -510,26 +579,29 @@ void save_function(shared_ptr<Graph>& graph, shared_ptr<Token>& file_name) {
         ofstream outfile((*file_name).name, ios_base::binary);
         if (outfile.is_open()) {
             vector<string> vertices;
-            vector<string> edges;
+            unsigned int size_vertices = graph->connections.size();
+            unsigned int size_edges = 0;
             for (auto& connection:graph->connections) {
                 vertices.push_back(connection.first);
-                for (auto& dest:connection.second) {
-                    string edge = "<" + connection.first + "," + dest + ">";
-                }
+                size_edges += connection.second.size();
             }
-            unsigned int size_vertices = vertices.size();
-            unsigned int size_edges = edges.size();
             outfile.write((const char*) &size_vertices, sizeof(size_vertices));
             outfile.write((const char*) &size_edges, sizeof(size_edges));
             for (auto& vertex:vertices) {
                 unsigned int sz = vertex.size();
                 outfile.write((const char*) &sz, sizeof(sz));
-                outfile.write((const char*) &vertex, sz);
+                outfile.write((const char*) vertex.c_str(), sz);
             }
-            for (auto& edge:edges) {
-                unsigned int sz = edge.size();
-                outfile.write((const char*) &sz, sizeof(sz));
-                outfile.write((const char*) &edge, sz);
+            for (auto& connection:graph->connections) {
+                for (auto& dest :connection.second) {
+                    unsigned int sz = connection.first.size();
+                    outfile.write((const char*) &sz, sizeof(sz));
+                    outfile.write((const char*) connection.first.c_str(), sz);
+
+                    sz = dest.size();
+                    outfile.write((const char*) &sz, sizeof(sz));
+                    outfile.write((const char*) dest.c_str(), sz);
+                }
             }
         } else {
             throw Undefined_variable();//todo:: check if this is a fetal exception
@@ -546,8 +618,6 @@ void read(vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>
                     for (const auto& graph :graph_map) {
                         outfile << graph.first << endl;
                     }
-                } else if ((*token_vector[0]).name == QUIT) {
-                    exit(0);
                 } else if ((*token_vector[0]).name == RESET) {
                     graph_map.clear();
                 } else if ((*token_vector[0]).name == DELETE) {
@@ -562,6 +632,9 @@ void read(vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>
                     auto start_itr = token_vector.begin() + 2;
                     vector<shared_ptr<Token>> new_token_vector(start_itr, end_itr);
                     auto it = new_token_vector.begin();
+                    if (new_token_vector.empty()) {
+                        throw Undefined_syntax();
+                    }
                     shared_ptr<Graph> graph = evaluate(new_token_vector, it);
                     save_function(graph, *next(token_vector.end(), -2));
                 }
@@ -593,6 +666,18 @@ vector<shared_ptr<Token>> tokenizer(vector<string>& output_vector, map<string, s
                 shared_ptr<Token> ptr(new Token(REGEX, *token, nullptr));
                 new_token_vector.push_back(ptr);
 
+            } else if (*token == ",") {
+                if (token == output_vector.end()) {
+                    throw Undefined_syntax();
+                }
+                shared_ptr<Token> ptr(new Token(REGEX, *token, nullptr));
+                new_token_vector.push_back(ptr);
+                token++;
+                if (!is_file(*(token))) {
+                    throw Undefined_syntax();
+                }
+                shared_ptr<Token> ptrfile(new Token(FILENAME, *token, nullptr));
+                new_token_vector.push_back(ptrfile);
             } else if (is_graph(*token)) {
                 if ((token - output_vector.begin()) == 0) {
                     shared_ptr<Token> ptr(new Token(GRAPH, *token, nullptr));
@@ -613,7 +698,7 @@ vector<shared_ptr<Token>> tokenizer(vector<string>& output_vector, map<string, s
                 graph_ptr = load_graph(*token);
                 token++;
                 shared_ptr<Token> token_ptr(new Token(GRAPH, "newgraph", graph_ptr));
-
+                new_token_vector.push_back(token_ptr);
             } else if (*token == "{") {
                 token++;
                 set<string> vertices;
@@ -687,12 +772,19 @@ int main(int argc, char** argv) {
 //                    vector<string> output_vector = parse_to_vector(str);
 //                    syntax_checker(output_vector);
 //                    vector<shared_ptr<Token>> token_vector = tokenizer(output_vector, graph_map);
+//                    if ((*token_vector[0]).name == QUIT) {
+//                    graph_map.~map();
+//                    newfile.close();
+//                    outfile.close();
+//                    exit(0);
+//                    }
 //                    read(token_vector, graph_map, outfile);
 //                }
 //                catch (const bad_alloc& e) {
 //                    cerr << e.what() << endl;
 //                    newfile.close();
-//                    graph_map.clear();
+//                    outfile.close();
+//                    graph_map.~map();
 //                    exit(0);
 //                } catch (const Undefined_variable& e) {
 //                    outfile << e.what() << endl;
@@ -701,7 +793,8 @@ int main(int argc, char** argv) {
 //                } catch (...) {
 //                    cerr << "Error: something unexpected" << endl;
 //                    newfile.close();
-//                    graph_map.clear();
+//                    outfile.close();
+//                    graph_map.~map();
 //                    exit(0);
 //                }
 //            }
@@ -719,10 +812,14 @@ int main(int argc, char** argv) {
 //                vector<string> output_vector = parse_to_vector(str);
 //                syntax_checker(output_vector);
 //                vector<shared_ptr<Token>> token_vector = tokenizer(output_vector, graph_map);
+//                if ((*token_vector[0]).name == QUIT) {
+//                graph_map.~map();
+//                exit(0);
+//                }
 //                read(token_vector, graph_map, cout);
 //            } catch (const bad_alloc& e) {
 //                cerr << e.what() << endl;
-//                graph_map.clear();
+//                graph_map.~map();
 //                exit(0);
 //            } catch (const Undefined_variable& e) {
 //                cout << e.what() << endl;
@@ -730,13 +827,13 @@ int main(int argc, char** argv) {
 //                cout << e.what() << endl;
 //            } catch (...) {
 //                cerr << "Error: something unexpected" << endl;
-//                graph_map.clear();
+//                graph_map.~map();
 //                exit(0);
 //            }
 //        }
 //    } else {
 //        cerr << "Error: Too many arguments";
-//        graph_map.clear();
+//        graph_map.~map();
 //        exit(0);
 //    }
 
@@ -749,7 +846,8 @@ int main(int argc, char** argv) {
         string str;
         while (getline(newfile, str)) { //read data from file object and put it into string.
             try {
-                if (str == "g1 = {reset,print|<reset,print>}") {
+                if (str ==
+                    "g2 = load(/Users/alexbondar/Technion/2_semester/matam/final_project/dani bondar.gf)") {
                 }
                 if (str.empty()) {
                     continue;
@@ -761,8 +859,9 @@ int main(int argc, char** argv) {
             }
             catch (const bad_alloc& e) {
                 cerr << e.what() << endl;
+                outfile.close();
                 newfile.close();
-                graph_map.clear();
+                graph_map.~map();
                 exit(0);
             } catch (const Undefined_variable& e) {
                 outfile << e.what() << endl;
@@ -771,7 +870,8 @@ int main(int argc, char** argv) {
             } catch (...) {
                 cerr << "Error: something unexpected" << endl;
                 newfile.close();
-                graph_map.clear();
+                outfile.close();
+                graph_map.~map();
                 exit(0);
             }
         }

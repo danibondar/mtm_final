@@ -29,7 +29,7 @@ public:
     Graph operator^(const Graph& graph) const;
     Graph operator-(const Graph& graph) const;
     Graph operator*(const Graph& graph) const;
-    void print(std::ostream& outfile);
+    void print(std::ostream& outfile)const ;
     Graph() = default;
 };
 Graph operator!(const Graph& graph);

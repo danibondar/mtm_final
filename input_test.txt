@@ -38,7 +38,6 @@ who
 g1= {arc,v|<s,d>}
 g1= {a|<d,a>}
 g1 =  {|<a,c>}
-g1 =  {|}
 a = {a}
 who
 1f =  {a,c|<a,c>}
@@ -228,4 +227,19 @@ reset
 g1 = {reset,print|<reset,print>}
 print(g1)
 print ({reset,print|<reset,print>})
+g1 = {|}
+print(g1)
+/////////////////////////////
+reset
+g1 = {|}
+save (g1,)
+save(,/Users/alexbondar/Technion/2_semester/matam/final_project/dani bondar.gf)
+save()
+g1 = !g1,
+g1 = load ( /Users/alexbondar/Technion/2_semester/matam/final_project/graph_g1.gf )
+print (g1)
+save (g1, /Users/alexbondar/Technion/2_semester/matam/final_project/dani bondar.gf )
+g2 = load(/Users/alexbondar/Technion/2_semester/matam/final_project/dani bondar.gf)
+print(g2)
+save(!g2+g1+g2 , /Users/alexbondar/Technion/2_semester/matam/final_project/intersection.gf )
 quit

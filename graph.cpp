@@ -114,7 +114,7 @@ Graph Graph::operator*(const Graph& graph) const {
     return Graph(new_map);
 }
 
-void Graph::print(ostream& outfile) {
+void Graph::print(ostream& outfile) const {
     for (const auto& connection : connections) {
         outfile << connection.first << endl;
     }
