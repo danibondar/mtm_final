@@ -26,6 +26,6 @@ $(TOKEN) : tokens.cpp tokens.h
 clean :
 	rm -f $(OBJS) $(GCALC)
 tar :
-	zip $(GCALC).zip  $(ZIPFILE)
+	zip $(GCALC).zip $(ZIPFILE)
 lidgraph.a: $(GCALC) python_interface.h
 	ar -rs $@ $^

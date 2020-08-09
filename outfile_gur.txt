@@ -83,3 +83,46 @@ z x
 z y
 Error: Undefined syntax
 Error: Undefined variable
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+y
+z
+$
+y z
+z y
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+[a]
+[b]
+[c;]
+$
+[a] [b]
+[a] [c;]
+[b] [a]
+[b] [c;]
+[c;] [a]
+[c;] [b]
