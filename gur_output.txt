@@ -1,4 +1,10 @@
 $
+[x;1]
+[y;1]
+$
+[x;1]
+[y;1]
+$
 Error: Unknown. Failed to open file bu. No such file or directory
 Error: Invalid format. In <x,x> Self loops not allowed.
 Error: Multiple Declarations. z has already been declared.
@@ -37,20 +43,52 @@ g4
 g5
 g6
 Error: Invalid syntax. Unexpected: pokemon after command.
-[x;x]
-[z;x]
+[[x;x];z]
+[[x;y];z]
+[[x;z];z]
+[[z;x];z]
+[[z;y];z]
+[[z;z];z]
 x
 y
 z
 $
-[x;x] [z;x]
-[z;x] [x;x]
+[[x;x];z] [[x;y];z]
+[[x;x];z] [[x;z];z]
+[[x;x];z] [[z;x];z]
+[[x;x];z] [[z;y];z]
+[[x;x];z] [[z;z];z]
+[[x;y];z] [[x;x];z]
+[[x;y];z] [[x;z];z]
+[[x;y];z] [[z;x];z]
+[[x;y];z] [[z;y];z]
+[[x;y];z] [[z;z];z]
+[[x;z];z] [[x;x];z]
+[[x;z];z] [[x;y];z]
+[[x;z];z] [[z;x];z]
+[[x;z];z] [[z;y];z]
+[[x;z];z] [[z;z];z]
+[[z;x];z] [[x;x];z]
+[[z;x];z] [[x;y];z]
+[[z;x];z] [[x;z];z]
+[[z;x];z] [[z;y];z]
+[[z;x];z] [[z;z];z]
+[[z;y];z] [[x;x];z]
+[[z;y];z] [[x;y];z]
+[[z;y];z] [[x;z];z]
+[[z;y];z] [[z;x];z]
+[[z;y];z] [[z;z];z]
+[[z;z];z] [[x;x];z]
+[[z;z];z] [[x;y];z]
+[[z;z];z] [[x;z];z]
+[[z;z];z] [[z;x];z]
+[[z;z];z] [[z;y];z]
 y z
 z x
 z y
-Error: Invalid format. Binary operator "-" missing operand.
+Error: Unknown. Unknown error. Likely empty braces.
 Error: Missing Declaration. Graph: inv not declared
-Error: Invalid format. Binary operator "-" missing operand.
+Error: Unknown. Unknown error. Likely empty braces.
 x
 y
 $
@@ -84,7 +122,7 @@ z
 $
 y z
 z y
-Error: Invalid syntax. Failed to parse line after o
+Error: Missing Declaration. Graph: o not declared
 $
 $
 Error: Invalid syntax. Command cannot start with braces.

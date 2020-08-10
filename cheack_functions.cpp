@@ -84,7 +84,7 @@ bool is_file(const string& str) {
         return false;
     }
     for (auto& it :str) {
-        if (it == '"' || it == ',' || it == ')' || it == '(' || it == '{' || it == '}' || it == '[' || it == ']') {
+        if (it == '"' || it == ',' || it == ')' || it == '(' ) {
             return false;
         }
     }
