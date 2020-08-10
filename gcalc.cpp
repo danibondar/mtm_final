@@ -9,6 +9,7 @@
 #include "tokens.h"
 #include "Exceptions.h"
 #include "gcalc.h"
+#include "cheack_functions.h"
 
 #define DELETE "delete"
 #define WHO "who"
@@ -22,73 +23,6 @@
 #define GRAPH "graph"
 #define FILENAME "filename"
 using namespace std;
-
-bool is_symbol(const char val) {
-    if (val < '0' || (val > '9' && val < 'A') || (val > 'Z' && val < 'a') || val > 'z') {
-        if (val != '[' && val != ']' && val != ';') {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool is_vertex(const string& str) {
-    int square_bracket = 0;
-    for (char it : str) {
-        if (is_symbol(it)) {
-            return false;
-        }
-        if (it == '[') {
-            square_bracket++;
-        }
-        if (it == ']') {
-            if (square_bracket <= 0) {
-                return false;
-            } else { square_bracket--; }
-        }
-        if (it == ';') {
-            if (square_bracket <= 0) {
-                return false;
-            }
-        }
-    }
-    if (square_bracket != 0) {
-        return false;
-    }
-    //return !(str == DELETE || str == PRINT || str == WHO || str == QUIT || str == RESET);
-    return true;
-}
-
-bool is_graph(const string& str) {
-    if (str == DELETE || str == PRINT || str == WHO || str == QUIT || str == RESET || str == LOAD || str == SAVE) {
-        return false;
-    }
-    if ((str[0] >= 'a' && str[0] <= 'z') || (str[0] >= 'A' && str[0] <= 'Z')) {
-        for (char it : str) {
-            if (it < '0' || (it > '9' && it < 'A') || (it > 'Z' && it < 'a') || it > 'z') {
-                return false;
-            }
-        }
-        return true;
-    }
-    return false;
-}
-
-bool is_operator(const string& str) {
-    return str == "+" || str == "^" || str == "*" || str == "-";
-}
-
-bool is_file(const string& str) {
-    if (str.empty()) {
-        return false;
-    }
-    for (auto& it :str) {
-        if (it == '"' || it == ',' || it == ')' || it == '(' || it == '{' || it == '}' || it == '[' || it == ']') {
-            return false;
-        }
-    }
-    return true;
-}
 
 vector<string> parse_to_vector(string& str) {
     vector<string> input_stack;
@@ -240,7 +174,7 @@ void saved_function_checker(vector<string>& output_vector) {
                        !in_brakets) {
                 throw Undefined_syntax();
             }
-            if (*it == LOAD) {
+            if (*it == LOAD && !in_brakets) {
                 if ((*next(it) != "(") || (!is_file(*next(it, 2))) || (*next(it, 3) != ")")) {
                     throw Undefined_syntax();
                 }
@@ -341,7 +275,7 @@ void graph_syntax_checker(vector<string>& output_vector) {
                         } else {
                             throw Undefined_syntax();
                         }
-                    } else if (*it == "|") {
+                    } else if (*it == "|" && (*prev(it) == "{"|| is_vertex(*prev(it)))) {
                         pipline = true;
                     } else {
                         throw Undefined_syntax();
@@ -405,7 +339,7 @@ void syntax_checker(vector<string>& output_vector) {
     } catch (...) { throw; }
 }
 
-bool is_over(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<Token>>::iterator& it) {
+bool is_over(vector<shared_ptr<Token> >& token_vector, vector<shared_ptr<Token> >::iterator& it) {
     auto next_token = next(it);
     if (next_token - token_vector.end() == 0) {
         return true;
@@ -420,12 +354,12 @@ bool is_over(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<Token>>:
     } else return false;
 }
 
-shared_ptr<Graph> regex_evaluate(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<Token>>::iterator& it,
+shared_ptr<Graph> regex_evaluate(vector<shared_ptr<Token> >& token_vector, vector<shared_ptr<Token> >::iterator& it,
                                  shared_ptr<Graph> first_arg = nullptr) {
     return evaluate(token_vector, it, first_arg);
 }
 
-void argument_finder(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<Token>>::iterator& it,
+void argument_finder(vector<shared_ptr<Token> >& token_vector, vector<shared_ptr<Token> >::iterator& it,
                      shared_ptr<Graph>& arg) {
     try {
         if (is_graph((*it)->name)) {
@@ -468,11 +402,10 @@ shared_ptr<Graph> math(shared_ptr<Graph>& first_arg, string& operator_symbol, sh
             return res;
         }
     } catch (...) { throw; }
-    assert("cant reach here");
     return shared_ptr<Graph>();
 }
 
-shared_ptr<Graph> evaluate(vector<shared_ptr<Token>>& token_vector, vector<shared_ptr<Token>>::iterator& it,
+shared_ptr<Graph> evaluate(vector<shared_ptr<Token> >& token_vector, vector<shared_ptr<Token> >::iterator& it,
                            shared_ptr<Graph> first_arg) {
     string operator_symbol;
     shared_ptr<Graph> second_arg;
@@ -525,10 +458,10 @@ shared_ptr<Graph> load_graph(const string& file_name) {
             unsigned int num_vertices = 0;
             unsigned int num_edges = 0;
             set<string> vertices;
-            set<vector<string>> edges;
+            set<vector<string> > edges;
             infile.read((char*) &num_vertices, sizeof(num_vertices));
             infile.read((char*) &num_edges, sizeof(num_edges));
-            for (int i = 0; i < num_vertices; i++) {
+            for (unsigned int i = 0; i < num_vertices; i++) {
                 string vertex;
                 unsigned int size_of_vertex_name = 0;
                 infile.read((char*) &size_of_vertex_name, sizeof(size_of_vertex_name));
@@ -547,7 +480,7 @@ shared_ptr<Graph> load_graph(const string& file_name) {
                     vertices.insert(vertex);
                 }
             }
-            for (int i = 0; i < num_edges; i++) {
+            for (unsigned int i = 0; i < num_edges; i++) {
                 vector<string> edge;
                 for (int j = 0; j < 2; j++) {
                     string str_edge;
@@ -587,48 +520,8 @@ shared_ptr<Graph> load_graph(const string& file_name) {
         }
         throw;
     }
+    return nullptr;
 }
-
-/**
-void save_function(shared_ptr<Graph>& graph, shared_ptr<Token>& file_name) {
-    ofstream outfile((*file_name).name, ios_base::binary);
-    outfile.open((*file_name).name, ios_base::binary);
-    try {
-        if (outfile.is_open()) {
-            vector<string> vertices;
-            unsigned int size_vertices = graph->connections.size();
-            unsigned int size_edges = 0;
-            for (auto& connection:graph->connections) {
-                vertices.push_back(connection.first);
-                size_edges += connection.second.size();
-            }
-            outfile.write((const char*) &size_vertices, sizeof(size_vertices));
-            outfile.write((const char*) &size_edges, sizeof(size_edges));
-            for (auto& vertex:vertices) {
-                unsigned int sz = vertex.size();
-                outfile.write((const char*) &sz, sizeof(sz));
-                outfile.write((const char*) vertex.c_str(), sz);
-            }
-            for (auto& connection:graph->connections) {
-                for (auto& dest :connection.second) {
-                    unsigned int sz = connection.first.size();
-                    outfile.write((const char*) &sz, sizeof(sz));
-                    outfile.write((const char*) connection.first.c_str(), sz);
-
-                    sz = dest.size();
-                    outfile.write((const char*) &sz, sizeof(sz));
-                    outfile.write((const char*) dest.c_str(), sz);
-                }
-            }
-        } else {
-            outfile.close();
-            throw Undefined_variable();//todo:: check if this is a fetal exception
-        }
-        outfile.close();
-    } catch (...) { throw; }
-
-}
-*/
 
 void save_function(shared_ptr<Graph>& graph, shared_ptr<Token>& file_name) {
     ofstream outfile((*file_name).name, ios_base::binary);
@@ -674,7 +567,7 @@ void save_function(shared_ptr<Graph>& graph, shared_ptr<Token>& file_name) {
 
 }
 
-void read(vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>>& graph_map, ostream& outfile) {
+void read(vector<shared_ptr<Token> >& token_vector, map<string, shared_ptr<Graph> >& graph_map, ostream& outfile) {
     try {
         if (!token_vector.empty()) {
             if ((*token_vector[0]).type == FUNCTION) {
@@ -694,7 +587,7 @@ void read(vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>
                 } else if ((*token_vector[0]).name == SAVE) {
                     auto end_itr = token_vector.end() - 3;
                     auto start_itr = token_vector.begin() + 2;
-                    vector<shared_ptr<Token>> new_token_vector(start_itr, end_itr);
+                    vector<shared_ptr<Token> > new_token_vector(start_itr, end_itr);
                     auto it = new_token_vector.begin();
                     if (new_token_vector.empty()) {
                         throw Undefined_syntax();
@@ -714,8 +607,8 @@ void read(vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>
     } catch (...) { throw; }
 }
 
-vector<shared_ptr<Token>> tokenizer(vector<string>& output_vector, map<string, shared_ptr<Graph>>& graph_map) {
-    vector<shared_ptr<Token>> new_token_vector;
+vector<shared_ptr<Token> > tokenizer(vector<string>& output_vector, map<string, shared_ptr<Graph> >& graph_map) {
+    vector<shared_ptr<Token> > new_token_vector;
     try {
         for (auto token = output_vector.begin(); token != output_vector.end(); token++) {
 
@@ -766,7 +659,7 @@ vector<shared_ptr<Token>> tokenizer(vector<string>& output_vector, map<string, s
             } else if (*token == "{") {
                 token++;
                 set<string> vertices;
-                set<vector<string>> edges;
+                set<vector<string> > edges;
                 while (*token != "|" && *token != "}") {
                     if (*token == ",") {
                         token++;
@@ -814,8 +707,6 @@ vector<shared_ptr<Token>> tokenizer(vector<string>& output_vector, map<string, s
                     new_token_vector.push_back(token_ptr);
                 }
 
-            } else {
-                assert("wrong syntax");
             }
         }
     } catch (...) { throw; }
@@ -823,125 +714,95 @@ vector<shared_ptr<Token>> tokenizer(vector<string>& output_vector, map<string, s
 }
 
 int main(int argc, char** argv) {
-    map<string, shared_ptr<Graph>> graph_map;
-//    if (argc == 3) {
-//        fstream newfile;
-//        ofstream outfile;
-//        outfile.open(argv[2], ios::out);
-//        newfile.open(argv[1], ios::in); //open a file to perform read operation using file object
-//        if (newfile.is_open() && outfile.is_open()) { //checking whether the file is open
-//            string str;
-//            while (getline(newfile, str)) { //read data from file object and put it into string.
-//                try {
-//                    vector<string> output_vector = parse_to_vector(str);
-//                    syntax_checker(output_vector);
-//                    vector<shared_ptr<Token>> token_vector = tokenizer(output_vector, graph_map);
-//                    if ((*token_vector[0]).name == QUIT) {
-//                    graph_map.~map();
-//                    newfile.close();
-//                    outfile.close();
-//                    exit(0);
-//                    }
-//                    read(token_vector, graph_map, outfile);
-//                }
-//                catch (const bad_alloc& e) {
-//                    cerr << e.what() << endl;
-//                    newfile.close();
-//                    outfile.close();
-//                    graph_map.~map();
-//                    exit(0);
-//                } catch (const Undefined_variable& e) {
-//                    outfile << e.what() << endl;
-//                } catch (const Undefined_syntax& e) {
-//                    outfile << e.what() << endl;
-//                } catch (...) {
-//                    cerr << "Error: something unexpected" << endl;
-//                    newfile.close();
-//                    outfile.close();
-//                    graph_map.~map();
-//                    exit(0);
-//                }
-//            }
-//            outfile.close();
-//            newfile.close(); //close the file object.
-//        }
-//    } else if (argc == 1) {
-//        string str;
-//        while (true) {
-//            try {
-//                if(str == ""){
-//                    continue;
-//                }
-//                cout << "Gcalc> ";
-//                getline(cin, str);
-//                vector<string> output_vector = parse_to_vector(str);
-//                syntax_checker(output_vector);
-//                vector<shared_ptr<Token>> token_vector = tokenizer(output_vector, graph_map);
-//                if ((*token_vector[0]).name == QUIT) {
-//                graph_map.~map();
-//                exit(0);
-//                }
-//                read(token_vector, graph_map, cout);
-//            } catch (const bad_alloc& e) {
-//                cerr << e.what() << endl;
-//                graph_map.~map();
-//                exit(0);
-//            } catch (const Undefined_variable& e) {
-//                cout << e.what() << endl;
-//            } catch (const Undefined_syntax& e) {
-//                cout << e.what() << endl;
-//            } catch (...) {
-//                cerr << "Error: something unexpected" << endl;
-//                graph_map.~map();
-//                exit(0);
-//            }
-//        }
-//    } else {
-//        cerr << "Error: Too many arguments";
-//        graph_map.~map();
-//        exit(0);
-//    }
-
-
-    ifstream newfile;
-    newfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/gur_test.txt");
-    ofstream outfile;
-    outfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/outfile_gur.txt");
-    if (newfile.is_open() && outfile.is_open()) { //checking whether the file is open
-        string str;
-        while (getline(newfile, str)) { //read data from file object and put it into string.
-            try {
-                if (str ==
-                    "loadload ={} +g2 + g3 + !( g4*(  (g6 -g5+ g2))-g4*g5)") {
+    map<string, shared_ptr<Graph> > graph_map;
+    if (argc == 3) {
+        ifstream newfile;
+        newfile.open(argv[1], ios::in);
+//        newfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/MyTestin.txt");
+        ofstream outfile;
+        outfile.open(argv[2], ios::out);
+//        outfile.open("/Users/alexbondar/Technion/2_semester/matam/final_project/outfile.txt");
+         //open a file to perform read operation using file object
+        if (newfile.is_open() && outfile.is_open()) { //checking whether the file is open
+            string str;
+            while (getline(newfile, str)) { //read data from file object and put it into string.
+                try {
+                    if (str.empty()) {
+                        continue;
+                    }
+                    if (str == "print( { [;[;]][[]] } )") {
+                                        }
+                    vector<string> output_vector = parse_to_vector(str);
+                    syntax_checker(output_vector);
+                    vector<shared_ptr<Token> > token_vector = tokenizer(output_vector, graph_map);
+                    if ((*token_vector[0]).name == QUIT) {
+                    graph_map.~map();
+                    newfile.close();
+                    outfile.close();
+                    exit(0);
+                    }
+                    read(token_vector, graph_map, outfile);
                 }
+                catch (const bad_alloc& e) {
+                    cerr << e.what() << endl;
+                    newfile.close();
+                    outfile.close();
+                    graph_map.~map();
+                    exit(0);
+                } catch (const Undefined_variable& e) {
+                    outfile << e.what() << endl;
+                } catch (const Undefined_syntax& e) {
+                    outfile << e.what() << endl;
+                } catch (...) {
+                    cerr << "Error: something unexpected" << endl;
+                    newfile.close();
+                    outfile.close();
+                    graph_map.~map();
+                    exit(0);
+                }
+            }
+            outfile.close();
+            newfile.close(); //close the file object.
+        } else{
+            cerr << "Error: cant open input/output file" << endl;
+            graph_map.~map();
+            exit(0);
+        }
+    } else if (argc == 1) {
+        string str;
+        while (!cin.eof()) {
+            try {
+                cout << "Gcalc> ";
+                getline(cin, str);
                 if (str.empty()) {
                     continue;
                 }
                 vector<string> output_vector = parse_to_vector(str);
                 syntax_checker(output_vector);
-                vector<shared_ptr<Token>> token_vector = tokenizer(output_vector, graph_map);
-                read(token_vector, graph_map, outfile);
-            }
-            catch (const bad_alloc& e) {
+                vector<shared_ptr<Token> > token_vector = tokenizer(output_vector, graph_map);
+                if ((*token_vector[0]).name == QUIT) {
+                graph_map.~map();
+                exit(0);
+                }
+                read(token_vector, graph_map, cout);
+            } catch (const bad_alloc& e) {
                 cerr << e.what() << endl;
-                outfile.close();
-                newfile.close();
                 graph_map.~map();
                 exit(0);
             } catch (const Undefined_variable& e) {
-                outfile << e.what() << endl;
+                cout << e.what() << endl;
             } catch (const Undefined_syntax& e) {
-                outfile << e.what() << endl;
+                cout << e.what() << endl;
             } catch (...) {
                 cerr << "Error: something unexpected" << endl;
-                newfile.close();
-                outfile.close();
                 graph_map.~map();
                 exit(0);
             }
         }
-        newfile.close();
-        outfile.close();//close the file object.
+    } else {
+        cerr << "Error: Too many arguments";
+        graph_map.~map();
+        exit(0);
     }
-    return 0;
+   return 0;
 }

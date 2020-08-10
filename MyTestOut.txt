@@ -1,0 +1,82 @@
+load
+print
+quit
+save
+who
+$
+print who
+$
+$
+[;;;;;;;;;;;;;;;;;GeneralErrors;;;;;;;;;;;;;;;;;]
+$
+Error: Illegal name
+Error: Illegal name
+Error: Illegal name
+Error: Illegal name
+Error: Illegal name
+Error: Illegal name
+Error: Illegal name
+Error: Unrecognized command 'Print({YOUFAILED})'
+Error: Illegal name
+[;;;;;;;;;;;;;;;;;VertexErrors;;;;;;;;;;;;;;;;;]
+$
+Error: Redefined vertex
+Error: Illegal name
+Error: Illegal name
+Error: Illegal name
+Error: Couldn't open file
+Error: Couldn't open file
+Error: Illegal name
+[;;;;;;;;;;;;;;;;;EdgeErrors;;;;;;;;;;;;;;;;;]
+$
+Error: Parallel edges
+Error: Cannot add edge <a,c> due to missing endpoint.
+Error: Self edge
+[;;;;;;;;;;;;;;;;;WorksWithoutErrors;;;;;;;;;;;;;;;;;]
+$
+[[][[[]]]X;AE;A;Xii]
+$
+[;[;]][[]]
+$
+Error: Illegal name
+[[;[]];a]
+[[;[]];b]
+[[;[]];d]
+[[;[]];q]
+[[;[]];z]
+[[[];];a]
+[[[];];b]
+[[[];];d]
+[[[];];q]
+[[[];];z]
+$
+[[[];];a] [[;[]];b]
+[[[];];a] [[;[]];q]
+[[[];];a] [[;[]];z]
+[[[];];b] [[;[]];a]
+[[[];];b] [[;[]];q]
+[[[];];b] [[;[]];z]
+[[[];];q] [[;[]];a]
+[[[];];q] [[;[]];b]
+[[[];];q] [[;[]];z]
+[[[];];z] [[;[]];a]
+[[[];];z] [[;[]];b]
+[[[];];z] [[;[]];q]
+a
+b
+$
+a b
+b a
+[;;;;;;;;;;;;;;;;;RandomTests;;;;;;;;;;;;;;;;;]
+$
+Error: Illegal name
+Error: Illegal name
+Error: Unrecognized command 'who reset'
+Error: Unrecognized command 'reset who'
+Error: Unrecognized command 'quit()'
+Error: Unrecognized command '(quit)'
+Error: Unrecognized command 'quit quit'
+G
+Error: Illegal name
+Error: Illegal name
+Error: Illegal name

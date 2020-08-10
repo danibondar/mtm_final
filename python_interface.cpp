@@ -7,7 +7,7 @@
 #include <set>
 #include <fstream>
 #include "graph.h"
-
+#include "cheack_functions.h"
 #define ERROR "Error: "
 
 

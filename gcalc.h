@@ -13,7 +13,7 @@
 #include "Exceptions.h"
 
 std::shared_ptr<Graph>
-evaluate(vector<std::shared_ptr<Token>>& token_vector, vector<std::shared_ptr<Token>>::iterator& it,
+evaluate(vector<std::shared_ptr<Token> >& token_vector, vector<std::shared_ptr<Token> >::iterator& it,
          std::shared_ptr<Graph> first_arg = nullptr);
 bool is_vertex(const string& str);
 bool is_graph(const string& str);

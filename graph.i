@@ -1,9 +1,10 @@
-%
-module graph
+%module graph
 %{
 #include "python_interface.h"
-
 %}
+
+
+
 Graph* create();
 void destroy(Graph* graph);
 Graph* addVertex(Graph* graph, const string

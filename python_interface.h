@@ -1,8 +1,9 @@
 #ifndef FINAL_PROJECT_PYTHON_INTERFACE_H
 #define FINAL_PROJECT_PYTHON_INTERFACE_H
 
-#include "gcalc.h"
-
+//#include "gcalc.h"
+#include "graph.h"
+#include "cheack_functions.h"
 Graph* create();
 void destroy(Graph* graph);
 Graph* addVertex(Graph* graph, const string& vertex);

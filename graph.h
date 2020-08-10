@@ -19,9 +19,9 @@ class Graph {
 private:
 
 public:
-    map<string, set<string>> connections;
-    Graph(const set<string>& vertices,const set<vector<string>>& edges);
-    Graph(map<string, set<string>> connection);
+    map<string, set<string> > connections;
+    Graph(const set<string>& vertices,const set<vector<string> >& edges);
+    Graph(map<string, set<string> > connection);
     ~Graph() = default;
     Graph(const Graph& graph);
     Graph& operator=(const Graph& graph);

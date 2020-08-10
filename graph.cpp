@@ -6,8 +6,8 @@
 
 using namespace std;
 
-Graph::Graph(const set<string>& vertices, const set<vector<string>>& edges) {
-    map<string, set<string>> graph_map;
+Graph::Graph(const set<string>& vertices, const set<vector<string> >& edges) {
+    map<string, set<string> > graph_map;
     for (auto it = vertices.begin(); it != vertices.end(); it++) {
         set<string> dest;
         for (auto it_2 = edges.begin(); it_2 != edges.end(); it_2++) {
@@ -28,7 +28,7 @@ Graph& Graph::operator=(const Graph& graph) {
 }
 
 Graph Graph::operator+(const Graph& graph) const {
-    map<string, set<string>> new_map = this->connections;
+    map<string, set<string> > new_map = this->connections;
     for (const auto& connection : graph.connections) {
         auto itr = new_map.find((connection.first));
         if (itr == new_map.end()) {
@@ -41,7 +41,7 @@ Graph Graph::operator+(const Graph& graph) const {
 }
 
 Graph Graph::operator^(const Graph& graph) const {
-    map<string, set<string>> new_map;
+    map<string, set<string> > new_map;
     for (const auto& connection : connections) {
         set<string> dest;
         auto his_vertex = graph.connections.find(connection.first);
@@ -59,7 +59,7 @@ Graph Graph::operator^(const Graph& graph) const {
 }
 
 Graph Graph::operator-(const Graph& graph) const {
-    map<string, set<string>> new_map;
+    map<string, set<string> > new_map;
     for (const auto& connection : connections) {
         set<string> vertices;
         if (graph.connections.find(connection.first) == graph.connections.end()) {
@@ -75,7 +75,7 @@ Graph Graph::operator-(const Graph& graph) const {
 }
 
 Graph operator!(const Graph& graph) {
-    map<string, set<string>> new_map;
+    map<string, set<string> > new_map;
     set<string> vertices;
     for (const auto& connection : graph.connections) {
         vertices.insert(connection.first);
@@ -97,7 +97,7 @@ string make_product_vertex(const string& first_vertex, const string& second_vert
 }
 
 Graph Graph::operator*(const Graph& graph) const {
-    map<string, set<string>> new_map;
+    map<string, set<string> > new_map;
     for (const auto& connection : connections) {
         for (const auto& his_connection: graph.connections) {
             set<string> edges;
@@ -126,5 +126,5 @@ void Graph::print(ostream& outfile) const {
     }
 }
 
-Graph::Graph(map<string, set<string>> connection) : connections(connection) {}
+Graph::Graph(map<string, set<string> > connection) : connections(connection) {}
 
