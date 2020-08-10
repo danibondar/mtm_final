@@ -1,5 +1,5 @@
-CC = /usr/local/bin/gcc
-#CC = /usr/bin/gcc
+#CC = /usr/local/bin/gcc
+CC = /usr/bin/gcc
 CXX=/usr/local/bin/g++
 #CXX=/usr/bin/g++
 COMP_FLAGS = -std=c++11 -Wall -Werror -pedantic-errors -DNDEBUG -c -fPIC
@@ -16,7 +16,7 @@ MAKEFILE = Makefile
 TESTS = test_in.txt test_out.txt
 IFILE = graph.i
 ZIPFILE = $(PDF) $(MAKEFILE) $(TESTS) cheack_functions.cpp cheack_functions.h Exceptions.h gcalc.cpp gcalc.h graph.cpp\
-graph.h graph.i python_interface.cpp python_interface.h tokens.cpp tokens.h _graph.so
+graph.h graph.i python_interface.cpp python_interface.h tokens.cpp tokens.h 
 PYOBJS = $(GRAPH)
 
 $(GCALC) : $(OBJS)
