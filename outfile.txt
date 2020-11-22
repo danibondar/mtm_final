@@ -1,303 +1,63 @@
-g1
-a
-b
-$
-a b
-Error: Undefined syntax
 Error: Undefined variable
-g1
-g2
-g3
-[d;]
-a
-b
-c
-$
-[d;] c
-a [d;]
-a b
 Error: Undefined variable
 Error: Undefined syntax
 Error: Undefined syntax
-g1
-g2
-g3
-[d;]
-a
-b
-c
-$
-[d;] c
-a [d;]
-a b
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
 a
 b
 $
 a b
-g1
-g2
-g3
-a
-b
-c
+Error: Undefined syntax
+[a;z]
+[b;z]
+[m;z]
 $
-a b
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+print
+reset
+$
+reset print
+Error: Undefined variable
+[e;1]
+[q;1]
+[w;1]
+$
+Error: Undefined syntax
+Error: Undefined syntax
 a
-b
 c
+d
 $
 a c
-b a
-b c
+a d
 c a
-c b
-Error: Undefined syntax
-g1
-g2
-g3
-g4
-Error: Undefined syntax
-Error: Undefined variable
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined variable
-Error: Undefined variable
-Error: Undefined variable
-Error: Undefined variable
-Error: Undefined variable
-Error: Undefined variable
-Error: Undefined variable
-a
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined variable
-Error: Undefined syntax
-Error: Undefined syntax
-a
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-a
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-a
-G1
-a
-g2
-[[]]
-[[]s]
-$
-[[]] [[]s]
-[;;;;][s][ffff][[ss244s]]
-$
-Error: Undefined syntax
-Error: Undefined syntax
-G1
-a
-g1
-g2
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-G1
-a
-g2
-a
-g2
-a
-a
-b
-i
-j
-$
-a b
-a i
-b a
-i j
-a
-b
-i
-j
-$
-a b
-a i
-b a
-i j
-a
-b
-i
-j
-$
-a b
-a i
-b a
-i j
-a
-b
-$
-a b
-a
-g1
-g2
-g3
-g4
-g5
-g6
-$
-Error: Undefined syntax
-$
-a
-$
-a
-$
-Error: Undefined syntax
-Error: Undefined syntax
-a
-b
-$
-a b
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined variable
-a
+c d
+d a
+d c
 c
-s
-$
-a c
-Error: Undefined variable
-Error: Undefined variable
-a
-c
-s
+v
+x
 z
 $
-a c
-$
-g1
-g2
-a
-b
-$
-a b
-$
-b
-$
-a
-$
-a
-$
 c
 v
+x
+z
 $
-c v
-c
-v
-$
-Error: Undefined syntax
-Error: Undefined variable
-Error: Undefined variable
-Error: Undefined variable
-$
-bondar
-dani
-$
-dani bondar
-a
-b
-$
-a b
-$
-$
-g1
-g2
-g3
-a
-b
-$
-a b
-a
-b
-c
-v
-$
-b a
-g1
-g2
-g3
-a
-b
-$
-a b
-a
-b
-c
-v
-$
-b a
-Error: Undefined syntax
-[a;c]
-[a;d]
-[b;c]
-[b;d]
-$
-[a;c] [b;d]
-[a;c]
-[a;d]
-[b;c]
-[b;d]
-$
-[a;c] [b;d]
-[c;a]
-[c;b]
-[d;a]
-[d;b]
-$
-[c;a] [d;b]
-[c;a]
-[c;b]
-[d;a]
-[d;b]
-$
-[c;a] [d;b]
-[c;b] [d;a]
-[d;a] [c;b]
-[d;b] [c;a]
-Error: Undefined syntax
 [c;a]
 [c;b]
 [c;c]
@@ -346,68 +106,69 @@ $
 [b;[b;b]]
 $
 [a;[a;a]] [b;[b;b]]
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-a
-b
-$
-b a
+Error: Undefined variable
 a
 b
 $
 a b
+$
+g1
+g2
 a
 b
 $
 a b
-a
+$
 b
 $
-b a
-a
-b
-$
-b a
-a
-b
-$
-a b
-Error: Undefined syntax
 a
 $
-a
+c
+v
 $
+c v
+c
+v
 $
-print
-reset
-$
-reset print
-print
-reset
-$
-reset print
-$
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
-Error: Undefined syntax
 Error: Undefined syntax
 Error: Undefined variable
+Error: Undefined variable
+Error: Undefined variable
+$
+man
+super
+$
+super man
 $
 $
+g1
+g2
+g3
+a
+b
 $
-Error: Undefined syntax
+a b
+a
+b
+c
+v
 $
+b a
+a
+b
 $
+a b
+a
+b
+c
+v
 $
+b a
+a
+b
 $
+a b
+a
+b
 $
-Error: Undefined syntax
-$
-$
-m
-t
-$
-m t
-Error: Undefined syntax
+a b

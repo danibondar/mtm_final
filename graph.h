@@ -4,34 +4,32 @@
 #include <iostream>
 #include <memory>
 #include <string>
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <vector>
 #include <set>
 #include <map>
 
-using std::string;
-using std::vector;
-using std::set;
-using std::map;
+using namespace std;
 
 class Graph {
 private:
-
+    map<string, set<string>> connections;
 public:
-    map<string, set<string> > connections;
-    Graph(const set<string>& vertices,const set<vector<string> >& edges);
-    Graph(map<string, set<string> > connection);
+    explicit Graph(map<string, set<string>> graph_map);
     ~Graph() = default;
     Graph(const Graph& graph);
+
+    map<string, set<string>> get_connections() const { return connections; };
     Graph& operator=(const Graph& graph);
     Graph operator+(const Graph& graph) const;
     Graph operator^(const Graph& graph) const;
     Graph operator-(const Graph& graph) const;
     Graph operator*(const Graph& graph) const;
-    void print(std::ostream& outfile)const ;
+    void print(std::ostream& outfile) const;
     Graph() = default;
 };
+
 Graph operator!(const Graph& graph);
 
 

@@ -33,15 +33,15 @@ Graph* addVertex(Graph* graph, char* vertexInput) {
             std::cout << ERROR << "null input" << std::endl;
             return nullptr;
         }
-        if (!is_vertex(vertex)) {
+        if (!utilities::is_vertex(vertex)) {
             std::cout << ERROR << "not a vertex" << std::endl;
             return nullptr;
         }
-        if (graph->connections.find(vertex) != graph->connections.end()) {
+        if (graph->get_connections().find(vertex) != graph->get_connections().end()) {
             std::cout << ERROR << "vertex already exists" << std::endl;
             return nullptr;
         }
-        (*graph).connections[vertex];
+        (*graph).get_connections()[vertex];
     } catch (...) {
         std::cout << ERROR << "invalid input" << std::endl;
         return nullptr;
@@ -61,8 +61,8 @@ Graph* addEdge(Graph* graph, char* first_edge_input, char* second_edge_input) {
             std::cout << ERROR << "null input" << std::endl;
             return nullptr;
         }
-        if (graph->connections.find(first_edge) == graph->connections.end() ||
-            graph->connections.find(second_edge) == graph->connections.end()) {
+        if (graph->get_connections().find(first_edge) == graph->get_connections().end() ||
+            graph->get_connections().find(second_edge) == graph->get_connections().end()) {
             std::cout << ERROR << "vertex does not exists" << std::endl;
             return nullptr;
         }
@@ -70,13 +70,13 @@ Graph* addEdge(Graph* graph, char* first_edge_input, char* second_edge_input) {
             std::cout << ERROR << "no self loops" << std::endl;
             return nullptr;
         }
-        for (auto& dest :graph->connections[first_edge]) {
+        for (auto& dest :graph->get_connections()[first_edge]) {
             if (dest == second_edge) {
                 std::cout << ERROR << "no parallel loops" << std::endl;
                 return nullptr;
             }
         }
-        graph->connections[first_edge].insert(second_edge);
+        graph->get_connections()[first_edge].insert(second_edge);
     }
     catch (...) {
         std::cout << ERROR << "invalid input" << std::endl;

@@ -2,33 +2,19 @@
 #include <iostream>
 #include <memory>
 #include <string>
+#include <utility>
 #include <vector>
 
 using namespace std;
 
-Graph::Graph(const set<string>& vertices, const set<vector<string> >& edges) {
-    map<string, set<string> > graph_map;
-    for (auto it = vertices.begin(); it != vertices.end(); it++) {
-        set<string> dest;
-        for (auto it_2 = edges.begin(); it_2 != edges.end(); it_2++) {
-            if ((*it_2)[0] == *it) {
-                dest.insert((*it_2)[1]);
-            }
-        }
-        graph_map.insert({*it, dest});
-    }
-    connections = graph_map;
-}
+Graph::Graph(map<string, set<string>>  graph_map) : connections(move(graph_map)) {}
 
 Graph::Graph(const Graph& graph) : connections(graph.connections) {}
 
-Graph& Graph::operator=(const Graph& graph) {
-    connections = graph.connections;
-    return *this;
-}
+Graph& Graph::operator=(const Graph& graph) = default;
 
 Graph Graph::operator+(const Graph& graph) const {
-    map<string, set<string> > new_map = this->connections;
+    map<string, set<string>> new_map = this->connections;
     for (const auto& connection : graph.connections) {
         auto itr = new_map.find((connection.first));
         if (itr == new_map.end()) {
@@ -63,8 +49,8 @@ Graph Graph::operator-(const Graph& graph) const {
     for (const auto& connection : connections) {
         set<string> vertices;
         if (graph.connections.find(connection.first) == graph.connections.end()) {
-            for (const auto& dest_vertex : connection.second){
-                if (graph.connections.find(dest_vertex) == graph.connections.end()){
+            for (const auto& dest_vertex : connection.second) {
+                if (graph.connections.find(dest_vertex) == graph.connections.end()) {
                     vertices.insert(dest_vertex);
                 }
             }
@@ -77,13 +63,13 @@ Graph Graph::operator-(const Graph& graph) const {
 Graph operator!(const Graph& graph) {
     map<string, set<string> > new_map;
     set<string> vertices;
-    for (const auto& connection : graph.connections) {
+    for (const auto& connection : graph.get_connections()) {
         vertices.insert(connection.first);
     }
-    for (const auto& connection : graph.connections) {
+    for (const auto& connection : graph.get_connections()) {
         set<string> new_vertices;
         for (const auto& vertex : vertices) {
-            if (connection.second.find(vertex) == connection.second.end() && vertex!= connection.first) {
+            if (connection.second.find(vertex) == connection.second.end() && vertex != connection.first) {
                 new_vertices.insert(vertex);
             }
         }
@@ -118,7 +104,7 @@ void Graph::print(ostream& outfile) const {
     for (const auto& connection : connections) {
         outfile << connection.first << endl;
     }
-    outfile<<"$"<<endl;
+    outfile << "$" << endl;
     for (const auto& connection : connections) {
         for (const auto& vertex : connection.second) {
             outfile << connection.first << " " << vertex << endl;
@@ -126,5 +112,4 @@ void Graph::print(ostream& outfile) const {
     }
 }
 
-Graph::Graph(map<string, set<string> > connection) : connections(connection) {}
 

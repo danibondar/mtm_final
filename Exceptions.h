@@ -1,10 +1,8 @@
 #ifndef FINAL_PROJECT_EXCEPTIONS_H
 #define FINAL_PROJECT_EXCEPTIONS_H
 
-#include <string>
-#include <typeinfo>
 #include <iostream>
-
+#include <fstream>
 #define DEFAULT_ERROR_PREFIX "Error: "
 
 class Exception : public std::exception {
@@ -15,6 +13,10 @@ public:
     const char* what() const noexcept override {
         return DEFAULT_ERROR_PREFIX "Undefined variable";
     }
+};
+
+class Quit : public Exception {
+public:
 };
 
 class Undefined_syntax : public Exception {

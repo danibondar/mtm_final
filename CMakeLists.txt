@@ -7,4 +7,4 @@ set(CMAKE_TEST_RELEASE "${CMAKE_TEST_DEBUG} -DNDEBUG")
 
 set(CMAKE_CXX_FLAGS ${CMAKE_TEST_DEBUG})
 
-add_executable(gcalc.cpp graph.cpp tokens.cpp python_interface.cpp gcalc.h cheack_functions.cpp cheack_functions.h)
+add_executable(final_project main.cpp graph.cpp python_interface.cpp gcalc.cpp gcalc.h utilities.cpp utilities.h evaluator.cpp evaluator.h commends.cpp commends.h input_stream.cpp input_stream.h parse_string.cpp parse_string.h tokenizer.cpp tokenizer.h reader.cpp reader.h)

@@ -2,8 +2,7 @@
 #define FINAL_PROJECT_PYTHON_INTERFACE_H
 
 #include "graph.h"
-#include "cheack_functions.h"
-
+#include "utilities.h"
 Graph* create();
 void destroy(Graph* graph);
 Graph* addVertex(Graph* graph, char* vertex);

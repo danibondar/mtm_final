@@ -1,0 +1,174 @@
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined variable
+a
+b
+$
+a b
+Error: Undefined syntax
+[a;z]
+[b;z]
+[m;z]
+$
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+Error: Undefined syntax
+print
+reset
+$
+reset print
+Error: Undefined variable
+[e;1]
+[q;1]
+[w;1]
+$
+Error: Undefined syntax
+Error: Undefined syntax
+a
+c
+d
+$
+a c
+a d
+c a
+c d
+d a
+d c
+c
+v
+x
+z
+$
+c
+v
+x
+z
+$
+[c;a]
+[c;b]
+[c;c]
+[d;a]
+[d;b]
+[d;c]
+$
+[c;a] [d;b]
+[c;b] [d;a]
+[c;c] [d;a]
+[d;a] [c;b]
+[d;b] [c;a]
+[d;c] [c;a]
+[c;a]
+[c;b]
+[c;c]
+[d;a]
+[d;b]
+[d;c]
+$
+[c;a] [d;b]
+[c;b] [d;a]
+[c;c] [d;a]
+[d;a] [c;b]
+[d;b] [c;a]
+[d;c] [c;a]
+Error: Undefined syntax
+Error: Undefined syntax
+[[a;a];a]
+[[a;a];b]
+[[a;b];a]
+[[a;b];b]
+[[b;a];a]
+[[b;a];b]
+[[b;b];a]
+[[b;b];b]
+$
+[[a;a];a] [[b;b];b]
+[a;[a;a]]
+[a;[a;b]]
+[a;[b;a]]
+[a;[b;b]]
+[b;[a;a]]
+[b;[a;b]]
+[b;[b;a]]
+[b;[b;b]]
+$
+[a;[a;a]] [b;[b;b]]
+Error: Undefined variable
+a
+b
+$
+a b
+$
+g1
+g2
+a
+b
+$
+a b
+$
+b
+$
+a
+$
+c
+v
+$
+c v
+c
+v
+$
+Error: Undefined syntax
+Error: Undefined variable
+Error: Undefined variable
+Error: Undefined variable
+$
+man
+super
+$
+super man
+$
+$
+g1
+g2
+g3
+a
+b
+$
+a b
+a
+b
+c
+v
+$
+b a
+a
+b
+$
+a b
+a
+b
+c
+v
+$
+b a
+a
+b
+$
+a b
+a
+b
+$
+a b
