@@ -11,7 +11,7 @@ class Exception : public std::exception {
 class Undefined_variable : public Exception {
 public:
     const char* what() const noexcept override {
-        return DEFAULT_ERROR_PREFIX "Undefined variable";
+        return DEFAULT_ERROR_PREFIX "Undefined variable\n";
     }
 };
 
@@ -22,7 +22,7 @@ public:
 class Undefined_syntax : public Exception {
 public:
     const char* what() const noexcept override {
-        return DEFAULT_ERROR_PREFIX "Undefined syntax";
+        return DEFAULT_ERROR_PREFIX "Undefined syntax\n";
     }
 };
 

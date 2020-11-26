@@ -11,7 +11,6 @@ class gcalc {
 private:
     map<string, shared_ptr<Graph>> graph_map;
     input_stream stream;
-
 public:
     explicit gcalc(int argc, char**& argv);
     void activate_gcalc();

@@ -11,7 +11,7 @@ private:
     map<string, shared_ptr<Graph>> graph_map;
     shared_ptr<Graph> graph_builder(const vector<string>& vector_string);
 public:
-    tokenizer( map<string, shared_ptr<Graph>> graph_map):graph_map(std::move(graph_map)){}
+    explicit tokenizer( map<string, shared_ptr<Graph>> graph_map):graph_map(std::move(graph_map)){}
     vector<shared_ptr<Token>> to_token(const vector<string>& vector_string);
 };
 

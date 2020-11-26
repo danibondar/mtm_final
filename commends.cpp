@@ -9,7 +9,7 @@ void commends::who() {
         if (token_vector.size() != 1) {
             throw Undefined_syntax();
         }
-        for (const auto& graph :graph_map) {
+        for (const auto& graph :*graph_map) {
             outfile << graph.first << endl;
         }
     } catch (...) { throw; }
@@ -97,17 +97,17 @@ void commends::restart() {
         if (token_vector.size() != 1) {
             throw Undefined_syntax();
         }
-        graph_map.clear();
+        (*graph_map).clear();
     } catch (...) { throw; }
 }
 
 void commends::delete_graph() {
     try {
-        if (token_vector.size() != 4 || graph_map.find((token_vector[2])->get_name()) == graph_map.end() ||
+        if (token_vector.size() != 4 || (*graph_map).find((token_vector[2])->get_name()) == (*graph_map).end() ||
             (token_vector[1])->get_name() != "(" || (token_vector[3])->get_name() != ")") {
             throw Undefined_syntax();
         }
-        graph_map.erase((token_vector[2])->get_name());
+        (*graph_map).erase((token_vector[2])->get_name());
     } catch (...) { throw; }
 }
 
@@ -116,10 +116,10 @@ void commends::quit() {
         if (token_vector.size() != 1) {
             throw Undefined_syntax();
         }
-        graph_map.~map();
+        (*graph_map).~map();
         throw Quit();
     } catch (...) { throw; }
 }
 
-commends::commends(const vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>>& graph_map,
+commends::commends(const vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>>* graph_map,
         ostream& outfile) : token_vector(token_vector), graph_map(graph_map),outfile(outfile) {}

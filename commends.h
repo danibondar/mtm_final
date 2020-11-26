@@ -8,11 +8,11 @@ using namespace std;
 class commends {
 private:
     const vector<shared_ptr<Token>> token_vector;
-    map<string, shared_ptr<Graph>> graph_map;
+    map<string, shared_ptr<Graph>>* graph_map;
     ostream& outfile;
     void write_to_file(const shared_ptr<Graph>& graph, const shared_ptr<Token>& file_name);
 public:
-    commends(const vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>>& graph_map,
+    commends(const vector<shared_ptr<Token>>& token_vector, map<string, shared_ptr<Graph>>* graph_map,
             ostream& outfile);
     void who();
     void print();

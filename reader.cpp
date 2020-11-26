@@ -3,6 +3,7 @@
 #include "Exceptions.h"
 #include "evaluator.h"
 #include "commends.h"
+
 #define DELETE "delete"
 #define WHO "who"
 #define RESET "reset"
@@ -11,6 +12,7 @@
 #define SAVE "save"
 #define LOAD "load"
 #define FUNCTION "function"
+
 void reader::read(const vector<shared_ptr<Token>>& token_vector) {
     try {
         if (!token_vector.empty()) {
@@ -18,12 +20,16 @@ void reader::read(const vector<shared_ptr<Token>>& token_vector) {
                 save_function(token_vector);
             } else {
                 string graph_name = (*token_vector[0]).get_name();
+                if (token_vector.size() < 2) { throw Undefined_syntax(); }
                 if ((*token_vector[1]).get_name() != "=" || !utilities::is_graph(graph_name)) {
                     throw Undefined_syntax();
                 }
                 evaluator eval(token_vector, token_vector.cbegin() += 2);
                 shared_ptr<Graph> graph = eval.evaluate();
-                graph_map[graph_name] = graph;
+                if (graph == nullptr) {
+                    throw Undefined_variable();
+                }
+                (*graph_map)[graph_name] = graph;
             }
         }
     } catch (...) { throw; }
@@ -32,7 +38,7 @@ void reader::read(const vector<shared_ptr<Token>>& token_vector) {
 void reader::save_function(const vector<shared_ptr<Token>>& token_vector) {
     try {
         commends fun(token_vector, graph_map,
-                 outfile);
+                     outfile);
         string first_token = (token_vector[0])->get_name();
         if (first_token == WHO) {
             fun.who();

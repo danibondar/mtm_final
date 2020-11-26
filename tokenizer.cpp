@@ -93,6 +93,9 @@ vector<shared_ptr<Token>> tokenizer::to_token(const vector<string>& vector_strin
                 throw Undefined_syntax();
             }
         }
+        if (is_in_brackets) {
+            throw Undefined_syntax();
+        }
     } catch (...) { throw; }
     return token_vector;
 }
